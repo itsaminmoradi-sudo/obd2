@@ -1,0 +1,15 @@
+{
+  "manufacturer": "Hyundai",
+  "protocol": "ISO9141-2",
+  "ecu": "Bosch M7.9.8",
+  "autoDetectIds": [],
+  "pids": [
+    {
+      "name": "Throttle Position",
+      "command": "01 11",
+      "type": "int",
+      "formula": "A * 100 / 255",
+      "unit": "%"
+    }
+  ]
+}

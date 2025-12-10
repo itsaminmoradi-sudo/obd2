@@ -1,0 +1,15 @@
+{
+  "manufacturer": "Kia",
+  "protocol": "ISO9141-2",
+  "ecu": "Bosch M7.9.8",
+  "autoDetectIds": [],
+  "pids": [
+    {
+      "name": "Intake Air Temperature",
+      "command": "01 0F",
+      "type": "int",
+      "formula": "A - 40",
+      "unit": "°C"
+    }
+  ]
+}

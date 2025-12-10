@@ -1,0 +1,22 @@
+{
+  "manufacturer": "Peugeot",
+  "protocol": "KWP2000",
+  "ecu": "Sagem S2000",
+  "autoDetectIds": ["22 F1 90", "22 F1 9B"],
+  "pids": [
+    {
+      "name": "Engine RPM",
+      "command": "22 10 00",
+      "type": "int",
+      "formula": "(A * 256 + B) / 4",
+      "unit": "rpm"
+    },
+    {
+      "name": "Vehicle Speed",
+      "command": "22 10 0D",
+      "type": "int",
+      "formula": "A",
+      "unit": "km/h"
+    }
+  ]
+}
