@@ -1,0 +1,56 @@
+{
+  "manufacturer": "example-manufacturer",
+  "name": "Example Manufacturer",
+  "pids": [
+    {
+      "code": "010C",
+      "name": "Engine RPM",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8000,
+      "description": "Revolutions per minute of the engine",
+      "bytes": 2,
+      "formula": "(A*256+B)/4"
+    },
+    {
+      "code": "010D",
+      "name": "Vehicle Speed",
+      "unit": "km/h",
+      "min": 0,
+      "max": 260,
+      "description": "Current vehicle speed",
+      "bytes": 1,
+      "formula": "A"
+    },
+    {
+      "code": "0105",
+      "name": "Engine Coolant Temperature",
+      "unit": "°C",
+      "min": -40,
+      "max": 215,
+      "description": "Temperature of the engine coolant",
+      "bytes": 1,
+      "formula": "A-40"
+    },
+    {
+      "code": "010B",
+      "name": "Intake Manifold Absolute Pressure",
+      "unit": "kPa",
+      "min": 0,
+      "max": 255,
+      "description": "Absolute pressure in the intake manifold",
+      "bytes": 1,
+      "formula": "A"
+    },
+    {
+      "code": "0114",
+      "name": "O2 Sensor Voltage (Bank 1 Sensor 1)",
+      "unit": "V",
+      "min": 0,
+      "max": 1.275,
+      "description": "Voltage from the oxygen sensor",
+      "bytes": 2,
+      "formula": "A/200"
+    }
+  ]
+}
