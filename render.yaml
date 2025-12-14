@@ -1,0 +1,61 @@
+# Render.com deployment configuration
+# Infrastructure as Code for OBD2 Diagnostic Tool
+
+services:
+  - type: web
+    name: obd2-diagnostic-tool
+    env: python
+    plan: starter
+    
+    # Build and deployment configuration
+    buildCommand: |
+      python --version
+      ls -la
+      # Validate Python modules can be imported
+      python -c "import http.server, termios, fcntl, socket; print('All stdlib modules available')"
+    
+    # Docker configuration
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./
+    
+    # Health check configuration
+    healthCheckPath: /health
+    healthCheck:
+      interval: 10
+      timeout: 5
+      retries: 3
+    
+    # Auto-deploy configuration
+    autoDeploy: true
+    
+    # Environment variables
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PORT
+        fromService:
+          type: web
+          property: host
+      - key: LOG_LEVEL
+        value: INFO
+      - key: SERIAL_BAUDRATE
+        value: "38400"
+      - key: SERIAL_TIMEOUT
+        value: "1.0"
+      - key: BT_ENABLED
+        value: "false"
+      - key: BT_RFCOMM_CHANNEL
+        value: "1"
+      - key: HOST
+        value: "0.0.0.0"
+    
+    # Resource limits
+    resources:
+      cpu: 0.5
+      memory: 512Mi
+    
+    # Scaling configuration
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetCpuPercent: 70
