@@ -1,0 +1,24 @@
+{
+  "name": "obd2-diagnostic-tool",
+  "version": "1.0.0",
+  "description": "OBD2 Diagnostic Tool with vanilla frontend and mock backend",
+  "main": "backend/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:serve\"",
+    "backend:dev": "cd backend && npm install && npm run dev",
+    "backend:start": "cd backend && npm install && npm start",
+    "frontend:serve": "cd frontend && python3 -m http.server 3000",
+    "install:all": "npm install && cd backend && npm install",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["obd2", "diagnostic", "automotive", "vanilla-javascript"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
