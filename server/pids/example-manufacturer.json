@@ -10,7 +10,8 @@
       "max": 8000,
       "description": "Revolutions per minute of the engine",
       "bytes": 2,
-      "formula": "(A*256+B)/4"
+      "formula": "(A*256+B)/4",
+      "category": "engine"
     },
     {
       "code": "010D",
@@ -20,7 +21,8 @@
       "max": 260,
       "description": "Current vehicle speed",
       "bytes": 1,
-      "formula": "A"
+      "formula": "A",
+      "category": "engine"
     },
     {
       "code": "0105",
@@ -30,7 +32,8 @@
       "max": 215,
       "description": "Temperature of the engine coolant",
       "bytes": 1,
-      "formula": "A-40"
+      "formula": "A-40",
+      "category": "cooling"
     },
     {
       "code": "010B",
@@ -40,7 +43,8 @@
       "max": 255,
       "description": "Absolute pressure in the intake manifold",
       "bytes": 1,
-      "formula": "A"
+      "formula": "A",
+      "category": "engine"
     },
     {
       "code": "0114",
@@ -50,7 +54,63 @@
       "max": 1.275,
       "description": "Voltage from the oxygen sensor",
       "bytes": 2,
-      "formula": "A/200"
+      "formula": "A/200",
+      "category": "electrical"
+    },
+    {
+      "code": "0111",
+      "name": "Throttle Position",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "description": "Absolute throttle position",
+      "bytes": 1,
+      "formula": "(A*100)/255",
+      "category": "engine"
+    },
+    {
+      "code": "010E",
+      "name": "Timing Advance",
+      "unit": "°",
+      "min": -64,
+      "max": 63.5,
+      "description": "Spark advance relative to TDC",
+      "bytes": 1,
+      "formula": "(A/2)-64",
+      "category": "engine"
+    },
+    {
+      "code": "0123",
+      "name": "Injector Pulse Width",
+      "unit": "ms",
+      "min": 0,
+      "max": 25.5,
+      "description": "Fuel injection pulse width",
+      "bytes": 1,
+      "formula": "A/100",
+      "category": "fuel"
+    },
+    {
+      "code": "012E",
+      "name": "Fuel Level Input",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "description": "Fuel tank level input",
+      "bytes": 1,
+      "formula": "(A*100)/255",
+      "category": "fuel"
+    },
+    {
+      "code": "0142",
+      "name": "Control Module Voltage",
+      "unit": "V",
+      "min": 0,
+      "max": 16,
+      "description": "Battery voltage",
+      "bytes": 2,
+      "formula": "(A*256+B)/1000",
+      "category": "electrical"
     }
   ]
 }

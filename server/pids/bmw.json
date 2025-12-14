@@ -8,42 +8,48 @@
       "name": "Vehicle Identification Number",
       "mode": "09",
       "description": "17-character VIN",
-      "bytes": 17
+      "bytes": 17,
+      "category": "engine"
     },
     {
       "code": "0904",
       "name": "Calibration ID",
       "mode": "09",
       "description": "Calibration identification",
-      "bytes": 4
+      "bytes": 4,
+      "category": "engine"
     },
     {
       "code": "0906",
       "name": "ECU Name",
       "mode": "09",
       "description": "ECU identification string",
-      "bytes": 20
+      "bytes": 20,
+      "category": "engine"
     },
     {
       "code": "0909",
       "name": "Hardware and Software Version",
       "mode": "09",
       "description": "Hardware and software version numbers",
-      "bytes": 8
+      "bytes": 8,
+      "category": "engine"
     },
     {
       "code": "F186",
       "name": "ECU Identification",
       "mode": "22",
       "description": "ECU identification via UDS",
-      "bytes": 20
+      "bytes": 20,
+      "category": "engine"
     },
     {
       "code": "F18C",
       "name": "Vehicle Identification Number",
       "mode": "22",
       "description": "17-character VIN via UDS",
-      "bytes": 17
+      "bytes": 17,
+      "category": "engine"
     },
     {
       "code": "010C",
@@ -54,7 +60,8 @@
       "max": 16383.75,
       "description": "Revolutions per minute",
       "bytes": 2,
-      "formula": "(A*256+B)/4"
+      "formula": "(A*256+B)/4",
+      "category": "engine"
     },
     {
       "code": "010D",
@@ -65,7 +72,8 @@
       "max": 255,
       "description": "Current vehicle speed",
       "bytes": 1,
-      "formula": "A"
+      "formula": "A",
+      "category": "engine"
     },
     {
       "code": "0105",
@@ -76,7 +84,8 @@
       "max": 215,
       "description": "Temperature of the engine coolant",
       "bytes": 1,
-      "formula": "A-40"
+      "formula": "A-40",
+      "category": "cooling"
     },
     {
       "code": "010B",
@@ -87,7 +96,8 @@
       "max": 255,
       "description": "Absolute pressure in the intake manifold",
       "bytes": 1,
-      "formula": "A"
+      "formula": "A",
+      "category": "engine"
     }
   ]
 }
