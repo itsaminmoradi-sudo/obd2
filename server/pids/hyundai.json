@@ -8,42 +8,48 @@
       "name": "Vehicle Identification Number",
       "mode": "09",
       "description": "17-character VIN",
-      "bytes": 17
+      "bytes": 17,
+      "category": "engine"
     },
     {
       "code": "0904",
       "name": "Calibration ID",
       "mode": "09",
       "description": "Calibration identification",
-      "bytes": 4
+      "bytes": 4,
+      "category": "engine"
     },
     {
       "code": "0906",
       "name": "ECU Name",
       "mode": "09",
       "description": "ECU identification string",
-      "bytes": 20
+      "bytes": 20,
+      "category": "engine"
     },
     {
       "code": "0909",
       "name": "Hardware and Software Version",
       "mode": "09",
       "description": "Hardware and software version numbers",
-      "bytes": 8
+      "bytes": 8,
+      "category": "engine"
     },
     {
       "code": "F186",
       "name": "ECU Identification",
       "mode": "22",
       "description": "ECU identification via UDS",
-      "bytes": 20
+      "bytes": 20,
+      "category": "engine"
     },
     {
       "code": "F18C",
       "name": "Vehicle Identification Number",
       "mode": "22",
       "description": "17-character VIN via UDS",
-      "bytes": 17
+      "bytes": 17,
+      "category": "engine"
     },
     {
       "code": "010C",
@@ -54,7 +60,8 @@
       "max": 16383.75,
       "description": "Revolutions per minute",
       "bytes": 2,
-      "formula": "(A*256+B)/4"
+      "formula": "(A*256+B)/4",
+      "category": "engine"
     },
     {
       "code": "010D",
@@ -65,7 +72,152 @@
       "max": 255,
       "description": "Current vehicle speed",
       "bytes": 1,
-      "formula": "A"
+      "formula": "A",
+      "category": "engine"
+    },
+    {
+      "code": "0105",
+      "name": "Engine Coolant Temperature",
+      "mode": "01",
+      "unit": "°C",
+      "min": -40,
+      "max": 215,
+      "description": "Temperature of the engine coolant",
+      "bytes": 1,
+      "formula": "A-40",
+      "category": "cooling"
+    },
+    {
+      "code": "010B",
+      "name": "Intake Manifold Absolute Pressure",
+      "mode": "01",
+      "unit": "kPa",
+      "min": 0,
+      "max": 255,
+      "description": "Absolute pressure in the intake manifold",
+      "bytes": 1,
+      "formula": "A",
+      "category": "engine"
+    },
+    {
+      "code": "010E",
+      "name": "Timing Advance",
+      "mode": "01",
+      "unit": "°",
+      "min": -64,
+      "max": 63.5,
+      "description": "Spark advance relative to TDC",
+      "bytes": 1,
+      "formula": "(A/2)-64",
+      "category": "engine"
+    },
+    {
+      "code": "0111",
+      "name": "Throttle Position",
+      "mode": "01",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "description": "Absolute throttle position",
+      "bytes": 1,
+      "formula": "(A*100)/255",
+      "category": "engine"
+    },
+    {
+      "code": "0114",
+      "name": "O2 Sensor Voltage (Bank 1 Sensor 1)",
+      "mode": "01",
+      "unit": "V",
+      "min": 0,
+      "max": 1.275,
+      "description": "Voltage from the oxygen sensor (lambda)",
+      "bytes": 2,
+      "formula": "A/200",
+      "category": "electrical"
+    },
+    {
+      "code": "0123",
+      "name": "Injector Pulse Width (Bank 1)",
+      "mode": "01",
+      "unit": "ms",
+      "min": 0,
+      "max": 25.5,
+      "description": "Fuel injection pulse width",
+      "bytes": 1,
+      "formula": "A/100",
+      "category": "fuel"
+    },
+    {
+      "code": "0113",
+      "name": "Oxygen Sensor 1 (Bank 1 Sensor 1)",
+      "mode": "01",
+      "unit": "λ",
+      "min": 0,
+      "max": 2.0,
+      "description": "Lambda value from oxygen sensor",
+      "bytes": 2,
+      "formula": "(A*256+B)/32768",
+      "category": "electrical"
+    },
+    {
+      "code": "012C",
+      "name": "Commanded EGR",
+      "mode": "01",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "description": "Commanded exhaust gas recirculation",
+      "bytes": 1,
+      "formula": "(A*100)/255",
+      "category": "engine"
+    },
+    {
+      "code": "012E",
+      "name": "Fuel Level Input",
+      "mode": "01",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "description": "Fuel tank level input",
+      "bytes": 1,
+      "formula": "(A*100)/255",
+      "category": "fuel"
+    },
+    {
+      "code": "0130",
+      "name": "Vehicle Speed (OBD)",
+      "mode": "01",
+      "unit": "km/h",
+      "min": 0,
+      "max": 255,
+      "description": "Vehicle speed from OBD",
+      "bytes": 1,
+      "formula": "A",
+      "category": "engine"
+    },
+    {
+      "code": "0131",
+      "name": "Engine Load",
+      "mode": "01",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "description": "Engine load or mass air flow",
+      "bytes": 1,
+      "formula": "(A*100)/255",
+      "category": "engine"
+    },
+    {
+      "code": "0142",
+      "name": "Control Module Voltage",
+      "mode": "01",
+      "unit": "V",
+      "min": 0,
+      "max": 16,
+      "description": "Battery voltage",
+      "bytes": 2,
+      "formula": "(A*256+B)/1000",
+      "category": "electrical"
     }
   ]
 }

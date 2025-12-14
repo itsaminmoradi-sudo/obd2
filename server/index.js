@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -29,13 +30,23 @@ app.use('/health', healthRouter);
 // API routes
 app.use('/api', apiRouter);
 
-// Serve static files from React dist folder
-const distPath = path.join(__dirname, '../client/dist');
-app.use(express.static(distPath));
+// Serve vanilla static frontend by default
+const vanillaPath = path.join(__dirname, '../frontend');
+app.use(express.static(vanillaPath));
 
-// Handle React routing - serve index.html for all unmatched routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'), (err) => {
+// Optionally serve the React build (if present) under /react
+const reactDistPath = path.join(__dirname, '../client/dist');
+if (fs.existsSync(reactDistPath)) {
+  app.use('/react', express.static(reactDistPath));
+
+  app.get('/react/*', (req, res) => {
+    res.sendFile(path.join(reactDistPath, 'index.html'));
+  });
+}
+
+// SPA fallback for non-API routes (vanilla uses hash routing, but keep deep links resilient)
+app.get(/^\/(?!api|health|react).*/, (req, res) => {
+  res.sendFile(path.join(vanillaPath, 'index.html'), (err) => {
     if (err) {
       res.status(500).send('Error loading application');
     }

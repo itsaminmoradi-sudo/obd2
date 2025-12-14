@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Diagnostic Tool</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <header class="app-header">
+            <nav class="nav-container">
+                <div class="nav-brand">
+                    <h1>OBD2 Diagnostic</h1>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#/connection" data-route="connection">Connection & Settings</a></li>
+                    <li><a href="#/autodetection" data-route="autodetection">Auto Detection</a></li>
+                    <li><a href="#/dtc" data-route="dtc">DTC Workspace</a></li>
+                    <li><a href="#/livedata" data-route="livedata">Live Data</a></li>
+                    <li><a href="#/ecinfo" data-route="ecinfo">ECU Information</a></li>
+                    <li><a href="#/pidmanager" data-route="pidmanager">PID Manager</a></li>
+                </ul>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content" id="mainContent">
+            <!-- Connection & Settings Page -->
+            <div id="page-connection" class="page active">
+                <div class="page-header">
+                    <h2>Connection & Settings</h2>
+                    <p>Configure your OBD2 device connection parameters</p>
+                </div>
+                <div class="page-content">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="deviceSelect">Device Selection</label>
+                            <select id="deviceSelect" class="form-control">
+                                <option value="">Select OBD2 Device</option>
+                                <option value="usb-obd2">USB OBD2 Cable</option>
+                                <option value="bluetooth-obd2">Bluetooth OBD2 Adapter</option>
+                                <option value="wifi-obd2">WiFi OBD2 Adapter</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Connection Type</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="connectionType" value="usb" checked>
+                                    <span>USB</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="connectionType" value="bluetooth">
+                                    <span>Bluetooth</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="connectionType" value="wifi">
+                                    <span>WiFi</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="port">Port</label>
+                                <input type="text" id="port" class="form-control" value="3001" placeholder="Port number">
+                            </div>
+                            <div class="form-group">
+                                <label for="baud">Baud Rate</label>
+                                <select id="baud" class="form-control">
+                                    <option value="9600">9600</option>
+                                    <option value="38400">38400</option>
+                                    <option value="57600">57600</option>
+                                    <option value="115200" selected>115200</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Protocol Overrides (Optional)</label>
+                            <select id="protocolOverride" class="form-control">
+                                <option value="">Auto-detect (Recommended)</option>
+                                <option value="ISO14230-4_SLOW_INIT">ISO14230-4 Slow Init</option>
+                                <option value="ISO14230-4_FAST_INIT">ISO14230-4 Fast Init</option>
+                                <option value="ISO9141-2">ISO9141-2</option>
+                                <option value="KWP2000_SLOW_INIT">KWP2000 Slow Init</option>
+                                <option value="KWP2000_FAST_INIT">KWP2000 Fast Init</option>
+                                <option value="CAN_11BIT_500K">CAN 11-bit 500K</option>
+                                <option value="CAN_29BIT_500K">CAN 29-bit 500K</option>
+                                <option value="CAN_11BIT_250K">CAN 11-bit 250K</option>
+                                <option value="CAN_29BIT_250K">CAN 29-bit 250K</option>
+                            </select>
+                        </div>
+
+                        <div class="button-group">
+                            <button id="connectBtn" class="btn btn-primary">Connect</button>
+                            <button id="disconnectBtn" class="btn btn-secondary" disabled>Disconnect</button>
+                        </div>
+                    </div>
+
+                    <div class="status-panel">
+                        <h3>Connection Status</h3>
+                        <div class="status-item">
+                            <span class="status-label">Status:</span>
+                            <span class="status-value" id="connectionStatus">Disconnected</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Protocol:</span>
+                            <span class="status-value" id="currentProtocol">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Device:</span>
+                            <span class="status-value" id="currentDevice">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto Detection Page -->
+            <div id="page-autodetection" class="page">
+                <div class="page-header">
+                    <h2>Auto Detection Dashboard</h2>
+                    <p>Live protocol negotiation and vehicle detection</p>
+                </div>
+                <div class="page-content">
+                    <div class="detection-container">
+                        <div class="detection-section">
+                            <h3>Protocol Negotiation Logs</h3>
+                            <div class="log-container" id="protocolLogs">
+                                <div class="log-entry info">
+                                    <span class="log-time">[00:00:00]</span>
+                                    <span class="log-message">Ready for protocol negotiation...</span>
+                                </div>
+                            </div>
+                            <button id="startDetectionBtn" class="btn btn-primary">Start Detection</button>
+                            <button id="clearLogsBtn" class="btn btn-secondary">Clear Logs</button>
+                        </div>
+
+                        <div class="detection-section">
+                            <h3>Vehicle Information</h3>
+                            <div class="info-grid">
+                                <div class="info-card">
+                                    <h4>VIN</h4>
+                                    <p id="vehicleVin">Not detected</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>Manufacturer</h4>
+                                    <p id="vehicleManufacturer">Not detected</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>ECU Count</h4>
+                                    <p id="ecuCount">0</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>Protocol</h4>
+                                    <p id="detectedProtocol">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detection-section">
+                            <h3>ECU Metadata</h3>
+                            <div class="ecu-list" id="ecuList">
+                                <div class="ecu-item placeholder">
+                                    <p>No ECUs detected yet. Start detection to see ECU information.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DTC Workspace Page -->
+            <div id="page-dtc" class="page">
+                <div class="page-header">
+                    <h2>DTC Workspace</h2>
+                    <p>Diagnostic Trouble Codes analysis and management</p>
+                </div>
+                <div class="page-content">
+                    <div class="dtc-container">
+                        <div class="dtc-controls">
+                            <button id="readDtcBtn" class="btn btn-primary">Read DTCs</button>
+                            <button id="clearDtcBtn" class="btn btn-danger">Clear DTCs</button>
+                            <button id="clearStatusBtn" class="btn btn-secondary">Clear Status</button>
+                        </div>
+
+                        <div class="dtc-sections">
+                            <div class="dtc-section">
+                                <h3>Stored Codes</h3>
+                                <div class="dtc-table-container">
+                                    <table class="dtc-table" id="storedDtcTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Freeze Frame</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="no-data">
+                                                <td colspan="4">No stored codes</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="dtc-section">
+                                <h3>Pending Codes</h3>
+                                <div class="dtc-table-container">
+                                    <table class="dtc-table" id="pendingDtcTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Freeze Frame</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="no-data">
+                                                <td colspan="4">No pending codes</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="dtc-section">
+                                <h3>Permanent Codes</h3>
+                                <div class="dtc-table-container">
+                                    <table class="dtc-table" id="permanentDtcTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Freeze Frame</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="no-data">
+                                                <td colspan="4">No permanent codes</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Data Page -->
+            <div id="page-livedata" class="page">
+                <div class="page-header">
+                    <h2>Live Data Dashboard</h2>
+                    <p>Real-time engine parameters and sensor data</p>
+                </div>
+                <div class="page-content">
+                    <div class="live-data-container">
+                        <div class="data-controls">
+                            <div class="data-selector">
+                                <label for="dataSelect">Select Parameters:</label>
+                                <select id="dataSelect" multiple class="form-control">
+                                    <option value="rpm">Engine RPM</option>
+                                    <option value="speed">Vehicle Speed</option>
+                                    <option value="temp">Engine Temperature</option>
+                                    <option value="fuel">Fuel Level</option>
+                                    <option value="pressure">Fuel Pressure</option>
+                                    <option value="load">Engine Load</option>
+                                    <option value="maf">MAF Rate</option>
+                                    <option value="throttle">Throttle Position</option>
+                                    <option value="voltage">Battery Voltage</option>
+                                    <option value="timing">Ignition Timing</option>
+                                </select>
+                            </div>
+                            <div class="data-actions">
+                                <button id="startLiveDataBtn" class="btn btn-primary">Start Monitoring</button>
+                                <button id="stopLiveDataBtn" class="btn btn-secondary" disabled>Stop</button>
+                                <button id="resetChartBtn" class="btn btn-secondary">Reset Charts</button>
+                            </div>
+                        </div>
+
+                        <div class="charts-container">
+                            <div class="chart-section">
+                                <h3>Engine Parameters</h3>
+                                <div class="chart-grid">
+                                    <div class="chart-container">
+                                        <canvas id="engineChart" width="400" height="200"></canvas>
+                                        <h4>Engine RPM & Speed</h4>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="temperatureChart" width="400" height="200"></canvas>
+                                        <h4>Temperature & Pressure</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gauges-section">
+                                <h3>Live Gauges</h3>
+                                <div class="gauge-grid">
+                                    <div class="gauge-container">
+                                        <canvas id="rpmGauge" width="150" height="150"></canvas>
+                                        <p>Engine RPM</p>
+                                    </div>
+                                    <div class="gauge-container">
+                                        <canvas id="tempGauge" width="150" height="150"></canvas>
+                                        <p>Temperature</p>
+                                    </div>
+                                    <div class="gauge-container">
+                                        <canvas id="speedGauge" width="150" height="150"></canvas>
+                                        <p>Speed</p>
+                                    </div>
+                                    <div class="gauge-container">
+                                        <canvas id="voltageGauge" width="150" height="150"></canvas>
+                                        <p>Battery Voltage</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECU Information Page -->
+            <div id="page-ecinfo" class="page">
+                <div class="page-header">
+                    <h2>ECU Information</h2>
+                    <p>Detailed vehicle ECU and system information</p>
+                </div>
+                <div class="page-content">
+                    <div class="ecu-info-container">
+                        <button id="refreshEcuInfoBtn" class="btn btn-primary">Refresh Information</button>
+                        
+                        <div class="ecu-info-grid">
+                            <div class="info-section">
+                                <h3>Vehicle Information</h3>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">VIN:</span>
+                                        <span class="info-value" id="ecuVin">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Vehicle ID:</span>
+                                        <span class="info-value" id="ecuVehicleId">Not available</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-section">
+                                <h3>Hardware & Software</h3>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">Hardware Version:</span>
+                                        <span class="info-value" id="ecuHardwareVersion">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Software Version:</span>
+                                        <span class="info-value" id="ecuSoftwareVersion">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Calibration ID:</span>
+                                        <span class="info-value" id="ecuCalibrationId">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">CVN:</span>
+                                        <span class="info-value" id="ecuCvn">Not available</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-section">
+                                <h3>Engine Information</h3>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">Engine Type:</span>
+                                        <span class="info-value" id="ecuEngineType">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Fuel Type:</span>
+                                        <span class="info-value" id="ecuFuelType">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Displacement:</span>
+                                        <span class="info-value" id="ecuDisplacement">Not available</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-section">
+                                <h3>Supported Features</h3>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">Supported OBD Modes:</span>
+                                        <span class="info-value" id="ecuSupportedModes">Not available</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Supported PIDs:</span>
+                                        <span class="info-value" id="ecuSupportedPids">Not available</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PID Manager Page -->
+            <div id="page-pidmanager" class="page">
+                <div class="page-header">
+                    <h2>PID File Manager</h2>
+                    <p>Manage manufacturer-specific PID definitions</p>
+                </div>
+                <div class="page-content">
+                    <div class="pid-manager-container">
+                        <div class="pid-upload-section">
+                            <h3>Upload PID Files</h3>
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-content">
+                                    <p>Drop JSON files here or click to browse</p>
+                                    <input type="file" id="pidFileInput" accept=".json" multiple style="display: none;">
+                                    <button id="browseBtn" class="btn btn-primary">Browse Files</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pid-list-section">
+                            <h3>Loaded PID Files</h3>
+                            <div class="pid-file-list" id="pidFileList">
+                                <div class="pid-item placeholder">
+                                    <p>No PID files loaded</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Status Bar -->
+        <footer class="status-bar">
+            <div class="status-info">
+                <span id="appStatus">Ready</span>
+            </div>
+            <div class="status-indicators">
+                <span class="status-indicator" id="connectionIndicator">Disconnected</span>
+                <span class="status-indicator" id="dataIndicator">No Data</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal for Freeze Frame -->
+    <div id="freezeFrameModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Freeze Frame Data</h3>
+                <span class="modal-close" id="modalClose">×</span>
+            </div>
+            <div class="modal-body">
+                <div id="freezeFrameData"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
