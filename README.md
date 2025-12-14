@@ -255,3 +255,105 @@ cat > pids/newbrand.json << 'EOF'
     "unit": "RPM"
   }
 ]
+EOF
+```
+
+## Render Deployment
+
+The application is configured for deployment on Render.com using infrastructure as code.
+
+### Automatic Deployment
+
+1. Connect your GitHub repository to Render.com
+2. The `render.yaml` file will be automatically detected and used for deployment
+3. Render will build and deploy using the Docker configuration
+
+### Manual Deployment
+
+Alternatively, deploy manually:
+
+1. Create a new Web Service on Render
+2. Connect your repository
+3. Configure environment variables (see below)
+4. Set build command: `python --version`
+5. Set start command: `python backend/server.py`
+
+### Render Environment Variables
+
+Set these environment variables in your Render dashboard:
+
+```bash
+# Required
+PORT=8000                          # Auto-assigned by Render
+PYTHON_VERSION=3.11.0              # Python version
+
+# Server Configuration
+HOST=0.0.0.0                       # Bind to all interfaces
+LOG_LEVEL=INFO                     # Logging level
+
+# Serial Configuration (for production)
+SERIAL_BAUDRATE=38400              # Default baud rate
+SERIAL_TIMEOUT=1.0                 # Serial timeout
+SERIAL_PROTOCOL=elm327             # OBD2 protocol
+
+# Bluetooth Configuration
+BT_ENABLED=false                   # Disable Bluetooth by default
+BT_RFCOMM_CHANNEL=1                # RFCOMM channel
+```
+
+### Health Check
+
+Render will automatically monitor the `/health` endpoint for availability.
+
+### Deployment Verification
+
+After deployment, verify the service is running:
+
+```bash
+# Check health endpoint
+curl https://your-app-name.onrender.com/health
+
+# Expected response:
+{
+  "status": "healthy",
+  "timestamp": 1765718704.2075875,
+  "version": "1.0.0"
+}
+```
+
+### Troubleshooting
+
+1. **Port Issues**: Ensure `HOST=0.0.0.0` and use `process.env.PORT`
+2. **Serial Access**: OBD2 adapters require proper permissions
+3. **Bluetooth**: May not work in cloud environments
+4. **Memory Limits**: Monitor memory usage on starter plans
+
+## License
+
+This project is provided as-is for educational and development purposes.
+
+## Support
+
+For issues and feature requests, please check the deployment logs and ensure all environment variables are properly configured.
+
+## Architecture Highlights
+
+### Pure Python Stdlib Implementation
+
+This project demonstrates a complete web application using only Python's standard library:
+
+- **HTTP Server**: `http.server.ThreadingHTTPServer` with custom request routing
+- **Serial Communication**: Direct hardware access via `termios`, `fcntl`, and `socket` modules
+- **Configuration**: JSON file handling with environment variable support
+- **Data Streaming**: Server-Sent Events without external WebSocket libraries
+- **Frontend**: Static HTML/CSS/JS with fetch API for REST communication
+
+### Key Benefits
+
+1. **Zero Dependencies**: No external Python packages required
+2. **Lightweight**: Minimal resource footprint
+3. **Portable**: Runs on any system with Python 3.7+
+4. **Educational**: Clear demonstration of standard library capabilities
+5. **Production Ready**: Includes Docker, monitoring, and deployment configuration
+
+This implementation proves that complex applications can be built effectively using only Python's extensive standard library.
