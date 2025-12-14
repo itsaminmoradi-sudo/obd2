@@ -1,0 +1,68 @@
+[
+  {
+    "id": "valeo_001",
+    "name": "Engine RPM",
+    "command": "010C",
+    "type": "Engine",
+    "formula": "(A*256 + B) / 4",
+    "unit": "RPM",
+    "description": "Engine speed in revolutions per minute",
+    "min_value": 0,
+    "max_value": 16383.75
+  },
+  {
+    "id": "valeo_002",
+    "name": "Vehicle Speed",
+    "command": "010D",
+    "type": "Vehicle",
+    "formula": "B",
+    "unit": "km/h",
+    "description": "Vehicle speed in kilometers per hour",
+    "min_value": 0,
+    "max_value": 255
+  },
+  {
+    "id": "valeo_003",
+    "name": "Throttle Position",
+    "command": "0111",
+    "type": "Engine",
+    "formula": "B * 100 / 255",
+    "unit": "%",
+    "description": "Throttle position as percentage",
+    "min_value": 0,
+    "max_value": 100
+  },
+  {
+    "id": "valeo_004",
+    "name": "Engine Coolant Temperature",
+    "command": "0105",
+    "type": "Engine",
+    "formula": "A - 40",
+    "unit": "°C",
+    "description": "Engine coolant temperature",
+    "min_value": -40,
+    "max_value": 215
+  },
+  {
+    "id": "valeo_005",
+    "name": "Fuel Level Input",
+    "command": "012F",
+    "type": "Fuel",
+    "formula": "B * 100 / 255",
+    "unit": "%",
+    "description": "Fuel level input percentage",
+    "min_value": 0,
+    "max_value": 100
+  },
+  {
+    "id": "valeo_006",
+    "name": "Timing Advance",
+    "command": "010E",
+    "type": "Engine",
+    "formula": "A / 2 - 64",
+    "unit": "degrees",
+    "description": "Ignition timing advance",
+    "min_value": -64,
+    "max_value": 63.5
+  }
+]

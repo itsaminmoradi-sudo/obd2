@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBD2 Diagnostic Tool</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>OBD2 Diagnostic Tool</h1>
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#connection">Connection</a></li>
+                <li><a href="#pids">PID Data</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div class="status-panel">
+                <div class="connection-status">
+                    <h3>Connection Status</h3>
+                    <p id="status-text">Disconnected</p>
+                    <button id="connect-btn">Connect</button>
+                    <button id="disconnect-btn" disabled>Disconnect</button>
+                </div>
+                <div class="health-status">
+                    <h3>Health Check</h3>
+                    <p id="health-status">Checking...</p>
+                    <p id="last-update">Never</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="connection">
+            <h2>Serial Connection</h2>
+            <div class="connection-panel">
+                <div class="port-selection">
+                    <label for="port-select">Select Port:</label>
+                    <select id="port-select">
+                        <option value="">Loading ports...</option>
+                    </select>
+                </div>
+                <div class="baudrate-selection">
+                    <label for="baudrate-select">Baud Rate:</label>
+                    <select id="baudrate-select">
+                        <option value="38400">38400</option>
+                        <option value="115200">115200</option>
+                        <option value="57600">57600</option>
+                        <option value="9600">9600</option>
+                    </select>
+                </div>
+                <div class="manufacturer-selection">
+                    <label for="manufacturer-select">Manufacturer:</label>
+                    <select id="manufacturer-select">
+                        <option value="">Select manufacturer...</option>
+                        <option value="ikco">IKCO</option>
+                        <option value="peugeot">Peugeot</option>
+                        <option value="hyundai">Hyundai</option>
+                        <option value="bosch">Bosch</option>
+                        <option value="siemens">Siemens</option>
+                        <option value="valeo">Valeo</option>
+                        <option value="sagem">Sagem</option>
+                    </select>
+                </div>
+                <button id="load-pids-btn">Load PID Data</button>
+            </div>
+        </section>
+
+        <section id="pids">
+            <h2>PID Data</h2>
+            <div class="pid-panel">
+                <div class="pid-list">
+                    <h3>Available PIDs</h3>
+                    <div id="pid-list-container">
+                        <p>No PIDs loaded. Load manufacturer data to see available PIDs.</p>
+                    </div>
+                </div>
+                <div class="pid-details">
+                    <h3>PID Details</h3>
+                    <div id="pid-details-container">
+                        <p>Select a PID to view details.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="settings">
+            <h2>Settings</h2>
+            <div class="settings-panel">
+                <div class="server-config">
+                    <h3>Server Configuration</h3>
+                    <label for="server-port">Server Port:</label>
+                    <input type="number" id="server-port" value="8000" min="1024" max="65535">
+                    <label for="serial-timeout">Serial Timeout:</label>
+                    <input type="number" id="serial-timeout" value="1.0" step="0.1" min="0.1" max="10.0">
+                </div>
+                <div class="bluetooth-config">
+                    <h3>Bluetooth Configuration</h3>
+                    <label for="bluetooth-enabled">
+                        <input type="checkbox" id="bluetooth-enabled"> Enable Bluetooth
+                    </label>
+                    <label for="rfcomm-channel">RFCOMM Channel:</label>
+                    <input type="number" id="rfcomm-channel" value="1" min="1" max="30">
+                </div>
+                <button id="save-settings-btn">Save Settings</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 OBD2 Diagnostic Tool. Pure Python implementation.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
