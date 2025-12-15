@@ -1,19 +1,27 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use the official Node.js 18 image
+FROM node:18-slim
 
-# Set the working directory in the container
-WORKDIR /app
+# Create and change to the app directory
+WORKDIR /usr/src/app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy application dependency manifests
+COPY package*.json ./
+COPY client/package*.json ./client/
+COPY server/package*.json ./server/
 
-# Copy the application code into the container
-COPY app/ ./app
-COPY pids/ ./pids
+# Install app dependencies
+RUN npm install
+RUN npm install --prefix client
+RUN npm install --prefix server
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+# Copy local business logic
+COPY . .
 
-# Run main.py when the container launches
-CMD ["python", "-m", "app.main"]
+# Build the client
+RUN npm run build:client
+
+# Expose the port the app runs on
+EXPOSE 3001
+
+# Run the app
+CMD [ "npm", "start" ]
