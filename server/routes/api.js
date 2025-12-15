@@ -63,9 +63,12 @@ router.get('/pids/manufacturer/:manufacturer', pidController.getManufacturerPIDs
 router.get('/pids/:manufacturer/:pidCode', pidController.getPIDInfo);
 
 // DTC routes
-router.get('/dtc/read', dtcController.readDTCs);
+router.get('/dtc/stored', dtcController.getStoredDTCs);
+router.get('/dtc/pending', dtcController.getPendingDTCs);
+router.get('/dtc/permanent', dtcController.getPermanentDTCs);
+router.get('/dtc/uds', dtcController.getUdsDTCs);
+router.get('/dtc/kwp2000', dtcController.getKwp2000DTCs);
 router.post('/dtc/clear', dtcController.clearDTCs);
-router.get('/dtc/decode/:code', dtcController.decodeDTC);
 
 // Stream routes
 router.get('/stream/live', streamController.connectSSE);
