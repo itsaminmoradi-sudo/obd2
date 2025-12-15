@@ -1,18 +1,19 @@
-FROM node:18-slim
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY package.json ./
-COPY client/package.json ./client/
-COPY server/package.json ./server/
+# Copy the requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN npm install
+# Copy the application code into the container
+COPY app/ ./app
+COPY pids/ ./pids
 
-COPY . .
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
 
-RUN npm run build
-
-ENV NODE_ENV=production
-EXPOSE 3001
-
-CMD ["npm", "start"]
+# Run main.py when the container launches
+CMD ["python", "-m", "app.main"]
