@@ -5,4 +5,4 @@ services:
     rootDir: .
     plan: free
     healthCheckPath: /
-    httpPort: 8000
+    httpPort: 3001
